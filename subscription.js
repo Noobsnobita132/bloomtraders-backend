@@ -1,27 +1,24 @@
-# ══════════════════════════════════════════
-# BloomTraders Backend — Environment Variables
-# ══════════════════════════════════════════
-# Copy this file to .env and fill in your values
+{
+  "name": "bloomtraders-backend",
+  "version": "1.0.0",
+  "description": "BloomTraders SaaS Backend",
+  "main": "server.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "@supabase/supabase-js": "^2.39.0",
+    "dotenv": "^16.3.1",
+    "express-rate-limit": "^7.1.5",
+    "helmet": "^7.1.0"
+  }
+}
 
-# Server
-PORT=3000
-NODE_ENV=production
-
-# JWT Secret — apna koi strong random string likho
-JWT_SECRET=your-super-secret-jwt-key-change-this-to-random-string-min-32-chars
-
-# Supabase (supabase.com se milega)
-SUPABASE_URL=https://your-project-id.supabase.co
-SUPABASE_SERVICE_KEY=your-supabase-service-role-key
-
-# Lemon Squeezy (app.lemonsqueezy.com se milega)
-LEMONSQUEEZY_API_KEY=your-lemon-squeezy-api-key
-LEMONSQUEEZY_WEBHOOK_SECRET=your-webhook-signing-secret
-LEMONSQUEEZY_STORE_ID=your-store-id
-
-# Product/Variant IDs (Lemon Squeezy dashboard se copy karo)
-MONTHLY_VARIANT_ID=your-monthly-plan-variant-id
-# Yearly plan nahi hai — monthly only
-
-# Frontend URL (jahan aap ki app host ho)
-FRONTEND_URL=https://your-bloomtraders-domain.com
