@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BloomTraders — Pro Crypto Intelligence</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <style>
 :root {
   --gold:#F5A623;--gold-dim:#B87A1A;--gold-glow:rgba(245,166,35,0.13);
@@ -1172,17 +1172,27 @@ tr:hover td{background:rgba(255,255,255,.02);}
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // =============================================
-// SUPABASE INIT
+// SUPABASE INIT — runs after page load
 // =============================================
 const SUPA_URL = 'https://aorrltfzhiasahpxbzzz.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvcnJsdGZ6aGlhc2FocHhienp6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2NTkwNDgsImV4cCI6MjA4OTIzNTA0OH0.bdvcl77-s1W1vpK610aoa0upefoYGu0Sl1qlPCWkdu8';
 let supa = null;
 let currentUser = null;
-try {
-  supa = supabase.createClient(SUPA_URL, SUPA_KEY);
-  supa.auth.getSession().then(({data:{session}})=>{ if(session) currentUser=session.user; });
-  supa.auth.onAuthStateChange((_,session)=>{ currentUser=session?.user||null; });
-} catch(e) { console.warn('Supabase init failed, running in offline mode', e); }
+
+function initSupabase(){
+  try {
+    if(typeof supabase !== 'undefined'){
+      supa = supabase.createClient(SUPA_URL, SUPA_KEY);
+      supa.auth.getSession().then(({data:{session}})=>{ if(session) currentUser=session.user; });
+      supa.auth.onAuthStateChange((_,session)=>{ currentUser=session?.user||null; });
+      console.log('✅ Supabase connected');
+    } else {
+      console.warn('Supabase library not loaded, running offline');
+    }
+  } catch(e) {
+    console.warn('Supabase init error:', e);
+  }
+}
 const PAIRS = {
   'BTC/USDT': {price:67420,change:2.4,high:68120,low:65800,vol:'$38.2B',cap:'$1.33T'},
   'ETH/USDT': {price:3512,change:1.8,high:3590,low:3420,vol:'$18.4B',cap:'$421B'},
@@ -1847,4 +1857,22 @@ function saveCreds(){
 
 // =============================================
 // SMOOTH SCROLL (landing)
-// ==========
+// =============SMOOTH SCROLL===
+document.querySelectorAll("a[href^=\"#\"]").forEach(a=>{
+  a.addEventListener("click",e=>{
+    const t=document.querySelector(a.getAttribute("href"));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:"smooth"});}
+  });
+});
+
+// =============================================
+// INIT
+// =============================================
+window.addEventListener("load", function(){
+  initSupabase();
+  initTicker();
+  initLandingChart();
+});
+</script>
+</body>
+</html>
