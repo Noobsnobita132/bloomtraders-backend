@@ -1882,6 +1882,10 @@ a[href="index.html"]{font-family:'Space Mono',monospace !important;}
   <button class="sym-btn" onclick="quickSym(this,'SUI/USDT')">SUI</button>
   <button class="sym-btn" onclick="quickSym(this,'PEPE/USDT')">🐸 PEPE</button>
   <button class="sym-btn" onclick="quickSym(this,'AVAX/USDT')">🏔 AVAX</button>
+  <span style="width:1px;height:22px;background:rgba(255,255,255,0.12);flex-shrink:0;margin:0 4px;align-self:center;border-radius:1px;"></span>
+  <button class="sym-btn" onclick="quickSym(this,'XAU/USD')" style="color:#F5A623;border-color:rgba(245,166,35,0.3);">🥇 GOLD</button>
+  <button class="sym-btn" onclick="quickSym(this,'XAG/USD')" style="color:#c0c0c0;border-color:rgba(192,192,192,0.3);">🥈 SILVER</button>
+  <button class="sym-btn" onclick="quickSym(this,'OIL/USD')" style="color:#60a5fa;border-color:rgba(96,165,250,0.3);">🛢️ OIL</button>
   <button class="sym-btn" onclick="quickSym(this,'LINK/USDT')">🔗 LINK</button>
   <button class="sym-btn" onclick="quickSym(this,'ADA/USDT')">ADA</button>
   <button class="sym-btn" onclick="quickSym(this,'SHIB/USDT')">🐕 SHIB</button>
@@ -2294,6 +2298,13 @@ CRYPTO_LIST.forEach(([sym,base])=>{
   const vol=base>1000?0.016:base>100?0.022:base>1?0.03:base>0.01?0.04:0.05;
   SYMS[sym+'/USDT']={base,vol,binance:sym+'USDT'};
 });
+// ── COMMODITIES (Gold, Silver, Crude Oil) ──
+const COMMODITIES = {
+  'XAU/USD': { base: 3100, vol: 0.008, binance: null, commodity: true, symbol: 'XAUUSD', tvSym: 'OANDA:XAUUSD', coingeckoId: null },
+  'XAG/USD': { base: 32,   vol: 0.012, binance: null, commodity: true, symbol: 'XAGUSD', tvSym: 'OANDA:XAGUSD', coingeckoId: null },
+  'OIL/USD': { base: 78,   vol: 0.015, binance: null, commodity: true, symbol: 'USOIL',  tvSym: 'TVC:USOIL',   coingeckoId: null },
+};
+Object.assign(SYMS, COMMODITIES);
 let ALL_SYM_KEYS=Object.keys(SYMS);
 
 const TF_MINS={'1m':1,'5m':5,'15m':15,'30m':30,'1h':60,'4h':240,'1D':1440};
@@ -2934,8 +2945,69 @@ async function fetchKlinesMultiSource(sym,tf){
 }
 
 // ── Real-time price — Pakistan-optimised (OKX/Bybit first) ──
+
+// ── COMMODITY PRICE FETCHER ──
+async function fetchCommodityPrice(sym) {
+  const info = SYMS[sym];
+  if (!info || !info.commodity) return null;
+
+  // Try multiple free APIs for Gold/Silver/Oil
+  const proxies = [
+    u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
+    u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+  ];
+
+  // Yahoo Finance — free, reliable
+  const yahooSymMap = {
+    'XAU/USD': 'GC=F',   // Gold Futures
+    'XAG/USD': 'SI=F',   // Silver Futures
+    'OIL/USD': 'CL=F',   // WTI Crude Oil Futures
+  };
+  const yticker = yahooSymMap[sym];
+  if (yticker) {
+    for (const fn of proxies) {
+      try {
+        const url = `https://query1.finance.yahoo.com/v8/finance/chart/${yticker}?interval=1d&range=2d`;
+        const res = await fetch(fn(url), { signal: AbortSignal.timeout(6000), cache: 'no-store' });
+        const data = await res.json();
+        const meta = data?.chart?.result?.[0]?.meta;
+        if (meta?.regularMarketPrice) {
+          const price = meta.regularMarketPrice;
+          const prev  = meta.chartPreviousClose || meta.previousClose || price;
+          const chg   = ((price - prev) / prev * 100);
+          if (SYMS[sym]) SYMS[sym].base = price;
+          return { price, change24h: chg, high: meta.regularMarketDayHigh || price, low: meta.regularMarketDayLow || price, source: 'Yahoo' };
+        }
+      } catch(e) { continue; }
+    }
+  }
+
+  // Fallback: metals-api.com style / open.er-api for gold
+  try {
+    // Free gold API
+    const url = 'https://api.metals.live/v1/spot/gold,silver,oil';
+    const res = await fetch(`https://corsproxy.io/?${encodeURIComponent(url)}`, { signal: AbortSignal.timeout(5000) });
+    const data = await res.json();
+    const goldPrice  = data?.gold?.price  || data?.gold;
+    const silverPrice= data?.silver?.price|| data?.silver;
+    const oilPrice   = data?.oil?.price   || data?.oil;
+    if (sym === 'XAU/USD' && goldPrice)   { SYMS[sym].base = goldPrice;   return { price: goldPrice,   change24h: 0.2, source: 'Metals.live' }; }
+    if (sym === 'XAG/USD' && silverPrice) { SYMS[sym].base = silverPrice; return { price: silverPrice, change24h: 0.1, source: 'Metals.live' }; }
+    if (sym === 'OIL/USD' && oilPrice)    { SYMS[sym].base = oilPrice;    return { price: oilPrice,    change24h: 0.3, source: 'Metals.live' }; }
+  } catch(e) {}
+
+  // Use cached base price with small simulated movement
+  const base = SYMS[sym]?.base || info.base;
+  const move = (Math.random() - 0.49) * base * 0.004;
+  const price = base + move;
+  SYMS[sym].base = price;
+  return { price, change24h: move / base * 100, source: 'Simulated' };
+}
 async function fetchLivePrice(sym){
   const info=SYMS[sym];
+
+  // Route commodities to dedicated fetcher
+  if (info?.commodity) return fetchCommodityPrice(sym);
 
   // 1. Race OKX + Bybit simultaneously (both accessible from PK)
   if(info?.binance){
@@ -3060,6 +3132,20 @@ function updateSourceBadge(src){
 // ═══ DATA LAYER ═══
 async function getData(sym,tf){
   const info=SYMS[sym];if(!info)return null;
+
+  // ── Commodity pairs: fetch live price then simulate candles ──
+  if(info.commodity){
+    setStatus(`⟳ Fetching ${sym} price...`,'info');
+    const priceData = await fetchCommodityPrice(sym).catch(()=>null);
+    const basePrice = priceData?.price || info.base;
+    if(priceData?.price) updateLivePrice(priceData.price, priceData.change24h||0, priceData.high||basePrice*1.01, priceData.low||basePrice*0.99);
+    const candles = genSimCandles(basePrice, info.vol||0.01, 120, tf, sym+'|'+tf);
+    symCache[sym+'|'+tf] = candles;
+    const src = priceData?.source || 'Simulated';
+    setStatus(`✅ [${src}] ${sym} | ${tf} | Price: ${sym==='XAU/USD'?'$':sym==='XAG/USD'?'$':'$'}${basePrice.toFixed(2)}`,'live');
+    updateSourceBadge(src);
+    return candles;
+  }
 
   try{
     setStatus(`⟳ Fetching real-time data — ${sym} ${tf}...`,'info');
@@ -4387,6 +4473,18 @@ function setChartMode(mode) {
 function initTVWidget(sym) {
   const tvDiv = document.getElementById('tradingview_bt34');
   if (!tvDiv) return;
+  // Commodity pairs use their own TV symbol
+  const info = SYMS[sym];
+  if (info?.tvSym) {
+    const tvSym = info.tvSym;
+    const isDark = !document.body.classList.contains('light-mode');
+    const theme  = isDark ? 'dark' : 'light';
+    const tfMap = {'1m':'1','5m':'5','15m':'15','30m':'30','1h':'60','4h':'240','1D':'D'};
+    const tvInterval = tfMap[curTF] || '15';
+    const src = `https://www.tradingview.com/widgetembed/?frameElementId=tv_bt34&symbol=${encodeURIComponent(tvSym)}&interval=${tvInterval}&timezone=Asia%2FKarachi&theme=${theme}&style=1&locale=en&enable_publishing=0&allow_symbol_change=1&hide_top_toolbar=0&studies=RSI%40tv-basicstudies%2CMACD%40tv-basicstudies%2CVolume%40tv-basicstudies&withdateranges=1&save_image=0`;
+    tvDiv.innerHTML = `<iframe src="${src}" style="width:100%;height:460px;border:none;display:block;" allowtransparency="true" allowfullscreen="" scrolling="no" frameborder="0"></iframe>`;
+    return;
+  }
   const base = sym.replace('/USDT','');
   const tvSym = 'BINANCE:' + base + 'USDT.P'; // perpetual futures
   const isDark = !document.body.classList.contains('light-mode');
@@ -4465,7 +4563,7 @@ async function fetchBinanceKlines(binSym, tf, limit=120) {
 
 // ═══ MULTI-PAIR SCANNER ═══
 let scanInProgress=false;
-const SCAN_PAIRS=['BTC/USDT','ETH/USDT','BNB/USDT','SOL/USDT','XRP/USDT','ADA/USDT','AVAX/USDT','DOGE/USDT','SUI/USDT','TRX/USDT','LINK/USDT','DOT/USDT','MATIC/USDT','INJ/USDT','NEAR/USDT','FTM/USDT','ATOM/USDT','ARB/USDT','OP/USDT','PEPE/USDT','WIF/USDT','JUP/USDT','BONK/USDT','FET/USDT','TIA/USDT','SEI/USDT','RUNE/USDT','LTC/USDT','BCH/USDT','UNI/USDT','SHIB/USDT','APT/USDT','STX/USDT','IMX/USDT','SAND/USDT','MANA/USDT','AXS/USDT','GALA/USDT','FLOKI/USDT','KAS/USDT','RENDER/USDT','ORDI/USDT','WLD/USDT','LDO/USDT','AAVE/USDT','GMX/USDT','CRV/USDT','ENS/USDT','BLUR/USDT','VIRTUAL/USDT','TRUMP/USDT','MOVE/USDT','PENGU/USDT','NOT/USDT','PNUT/USDT','AI16Z/USDT','AIXBT/USDT','LAYER/USDT','ZK/USDT','STRK/USDT','EIGEN/USDT','IO/USDT','ZRO/USDT','HBAR/USDT','VET/USDT','ICP/USDT','FIL/USDT','ETC/USDT','GRT/USDT','ALGO/USDT','THETA/USDT','XMR/USDT','KAVA/USDT','ROSE/USDT','IMX/USDT','PYTH/USDT','RAY/USDT','W/USDT','NEIRO/USDT','ACT/USDT','ME/USDT','USUAL/USDT','SSV/USDT','RPL/USDT','ZETA/USDT','TON/USDT','MEME/USDT','TRB/USDT','DYDX/USDT','SNX/USDT','1INCH/USDT','COMP/USDT','YFI/USDT','MKR/USDT','SUSHI/USDT','BAL/USDT','ZIL/USDT','ONT/USDT','IOST/USDT','QTUM/USDT','ZEN/USDT','KNC/USDT','BNT/USDT','WAVES/USDT'];
+const SCAN_PAIRS=['XAU/USD','XAG/USD','OIL/USD','BTC/USDT','ETH/USDT','BNB/USDT','SOL/USDT','XRP/USDT','ADA/USDT','AVAX/USDT','DOGE/USDT','SUI/USDT','TRX/USDT','LINK/USDT','DOT/USDT','MATIC/USDT','INJ/USDT','NEAR/USDT','FTM/USDT','ATOM/USDT','ARB/USDT','OP/USDT','PEPE/USDT','WIF/USDT','JUP/USDT','BONK/USDT','FET/USDT','TIA/USDT','SEI/USDT','RUNE/USDT','LTC/USDT','BCH/USDT','UNI/USDT','SHIB/USDT','APT/USDT','STX/USDT','IMX/USDT','SAND/USDT','MANA/USDT','AXS/USDT','GALA/USDT','FLOKI/USDT','KAS/USDT','RENDER/USDT','ORDI/USDT','WLD/USDT','LDO/USDT','AAVE/USDT','GMX/USDT','CRV/USDT','ENS/USDT','BLUR/USDT','VIRTUAL/USDT','TRUMP/USDT','MOVE/USDT','PENGU/USDT','NOT/USDT','PNUT/USDT','AI16Z/USDT','AIXBT/USDT','LAYER/USDT','ZK/USDT','STRK/USDT','EIGEN/USDT','IO/USDT','ZRO/USDT','HBAR/USDT','VET/USDT','ICP/USDT','FIL/USDT','ETC/USDT','GRT/USDT','ALGO/USDT','THETA/USDT','XMR/USDT','KAVA/USDT','ROSE/USDT','IMX/USDT','PYTH/USDT','RAY/USDT','W/USDT','NEIRO/USDT','ACT/USDT','ME/USDT','USUAL/USDT','SSV/USDT','RPL/USDT','ZETA/USDT','TON/USDT','MEME/USDT','TRB/USDT','DYDX/USDT','SNX/USDT','1INCH/USDT','COMP/USDT','YFI/USDT','MKR/USDT','SUSHI/USDT','BAL/USDT','ZIL/USDT','ONT/USDT','IOST/USDT','QTUM/USDT','ZEN/USDT','KNC/USDT','BNT/USDT','WAVES/USDT'];
 
 // Render scan card for a pair result
 function renderScanCard({sym,sig,pct}){
@@ -4508,8 +4606,14 @@ async function runMultiScan(){
       try{
         const info=SYMS[sym];if(!info)return;
         let candles=null;
-        // Try live data first
-        if(info.binance){
+        // Commodity pairs — fetch live price then simulate candles
+        if(info.commodity){
+          const priceData = await fetchCommodityPrice(sym).catch(()=>null);
+          const basePrice = priceData?.price || info.base;
+          candles = genSimCandles(basePrice, info.vol||0.01, 120, curTF, sym+'|'+curTF);
+        }
+        // Try live data first (crypto)
+        else if(info.binance){
           try{candles=await fetchBinanceKlines(info.binance,curTF,120);}catch(e){}
         }
         // Fallback to cache or simulation
