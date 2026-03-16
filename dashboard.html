@@ -2439,7 +2439,7 @@ function addNotifToDrawer(sig,sym){
   // Tiny toast pulse (non-blocking)
   if(isEnter)showToast((isLong?'⬆':'⬇')+' '+sym.replace('/USDT','')+' SIGNAL','ok');
   // Sound for ENTER signals
-  if(isEnter){try{const ac=new(window.AudioContext||window.webkitAudioContext)();const osc=ac.createOscillator();const gain=ac.createGain();osc.connect(gain);gain.connect(ac.destination);osc.frequency.setValueAtTime(isLong?880:440,ac.currentTime);gain.gain.setValueAtTime(0.08,ac.currentTime);gain.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.25);osc.start();osc.stop(ac.currentTime+0.28);}catch(e){}}
+  
 }
 
 function renderNotifDrawer(){
@@ -4950,8 +4950,7 @@ async function checkCoinSpike(coin, now) {
     fireVolumeSpikeAlert(alertData);
 
     // Also play urgent sound for extreme
-    if (level === 'extreme') playAlertSound(level);
-    else if (level === 'high') playAlertSound('high');
+
 
   } catch (e) {
     // Silently ignore — coin may not exist on Binance
@@ -4991,23 +4990,7 @@ function dismissVSA(el, instant = false) {
   setTimeout(() => { if (el.parentNode) el.parentNode.removeChild(el); }, 500);
 }
 
-function playAlertSound(level) {
-  try {
-    const ac = new (window.AudioContext || window.webkitAudioContext)();
-    const freqs = level === 'extreme' ? [880, 1100, 880, 1100] : [660, 880, 660];
-    freqs.forEach((freq, i) => {
-      const osc = ac.createOscillator();
-      const gain = ac.createGain();
-      osc.connect(gain); gain.connect(ac.destination);
-      osc.frequency.value = freq;
-      osc.type = level === 'extreme' ? 'square' : 'sine';
-      const t = ac.currentTime + i * 0.12;
-      gain.gain.setValueAtTime(0.08, t);
-      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.1);
-      osc.start(t); osc.stop(t + 0.12);
-    });
-  } catch (e) {}
-}
+function playAlertSound(level) { /* muted */ }
 
 // ═══ AUTO SCAN ═══
 function startAutoScan(){
