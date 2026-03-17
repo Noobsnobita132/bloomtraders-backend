@@ -1,13 +1,12 @@
 {
   "version": 2,
-  "framework": null,
-  "outputDirectory": ".",
   "builds": [
     { "src": "*.html", "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "/dashboard", "dest": "/dashboard.html" },
+    { "src": "/", "dest": "/index.html" },
+    { "src": "/index.html", "dest": "/index.html" },
     { "src": "/dashboard.html", "dest": "/dashboard.html" },
-    { "src": "/(.*)", "dest": "/index.html" }
+    { "src": "/(.*)", "dest": "/$1" }
   ]
 }
