@@ -192,7 +192,7 @@
         <li><span class="ck">✓</span> Liquidation heatmap</li>
         <li><span class="ck">✓</span> Dynamic Island alerts</li>
       </ul>
-      <button class="plan-btn solid" onclick="openPayModal('Pro','$100 / PKR 27,800',100,27800)">Subscribe — Pro</button>
+      <button class="plan-btn solid" onclick="openPayModal('Pro','$29 / PKR 8,100',29,8100)">Subscribe — Pro</button>
     </div>
     <div class="plan">
       <div class="plan-name">Elite</div>
@@ -207,7 +207,7 @@
         <li><span class="ck">✓</span> Priority support</li>
         <li><span class="ck">✓</span> Custom alert webhooks</li>
       </ul>
-      <button class="plan-btn outline" onclick="openPayModal('Elite','$200 / PKR 55,600',200,55600)">Subscribe — Elite</button>
+      <button class="plan-btn outline" onclick="openPayModal('Elite','$79 / PKR 22,100',79,22100)">Subscribe — Elite</button>
     </div>
   </div>
 </section>
@@ -243,30 +243,29 @@
 <div class="overlay" id="authOverlay" onclick="closeBg(event,'authOverlay')">
   <div class="modal">
     <button class="modal-x" onclick="closeOverlay('authOverlay')">✕</button>
-    <h3>BloomTraders</h3>
+    <h3 style="margin-bottom:5px;">BloomTraders</h3>
     <div class="modal-sub">Login or create your account</div>
     <div class="tabs">
       <button class="tab active" id="tabLogin" onclick="switchAuthTab('login')">Sign In</button>
       <button class="tab" id="tabRegister" onclick="switchAuthTab('register')">Register</button>
     </div>
-    <!-- Login Form -->
     <div id="authFormLogin">
-      <div class="login-err" id="loginErr"></div>
+      <div class="login-err" id="loginErr" style="display:none;background:rgba(255,71,87,.1);border:1px solid rgba(255,71,87,.3);border-radius:7px;padding:9px;font-size:12px;color:#FF4757;margin-bottom:14px;"></div>
       <div class="fg"><label>Email</label><input type="email" id="loginEmail" placeholder="you@email.com"></div>
       <div class="fg"><label>Password</label><input type="password" id="loginPass" placeholder="••••••••"></div>
       <button class="modal-btn" id="loginBtn" onclick="doLogin()">Sign In →</button>
       <div class="modal-ft"><a href="#" onclick="doReset();return false;">Forgot password?</a></div>
     </div>
-    <!-- Register Form -->
-    <div id="authFormRegister" style="display:none;">
-      <div class="login-err" id="regErr"></div>
+    <div id="authFormRegister" style="display:none">
+      <div class="login-err" id="regErr" style="display:none;background:rgba(255,71,87,.1);border:1px solid rgba(255,71,87,.3);border-radius:7px;padding:9px;font-size:12px;color:#FF4757;margin-bottom:14px;"></div>
       <div class="fg"><label>Full Name</label><input type="text" id="regName" placeholder="Ahmed Khan"></div>
       <div class="fg"><label>Email</label><input type="email" id="regEmail" placeholder="you@email.com"></div>
       <div class="fg"><label>Password (min 6 chars)</label><input type="password" id="regPass" placeholder="••••••••"></div>
       <button class="modal-btn" id="regBtn" onclick="doRegister()">Create Account →</button>
-      <div class="modal-ft" style="font-size:11px;color:var(--dim);margin-top:10px;">Account create karne ke baad payment karein.<br>Admin approval ke baad dashboard access milega.</div>
+      <div style="text-align:center;font-size:11px;color:var(--dim);margin-top:10px;">Payment ke baad admin approve karega. Tab dashboard access milega.</div>
     </div>
   </div>
+</div>
 </div>
 <div class="overlay" id="payOverlay" onclick="closeBg(event,'payOverlay')">
   <div class="modal" style="width:500px;">
@@ -295,26 +294,26 @@
         <div style="font-size:10px;color:var(--dim);margin-bottom:10px;letter-spacing:1.5px;text-transform:uppercase;font-family:'Space Mono',monospace;">JazzCash Payment</div>
         <div class="pdr"><span class="pdl">Number</span><span class="pdv">03186350426<button class="cbtn" onclick="cp('03186350426',this)">Copy</button></span></div>
         <div class="pdr"><span class="pdl">Account Name</span><span class="pdv">Hassan Raza</span></div>
-        <div class="pdr"><span class="pdl">Amount (PKR)</span><span class="pdv" id="jazzAmt">PKR 27,800<button class="cbtn" onclick="cp('27800',this)">Copy</button></span></div>
+        <div class="pdr"><span class="pdl">Amount (PKR)</span><span class="pdv" id="jazzAmt">PKR 8,100<button class="cbtn" onclick="cp('8100',this)">Copy</button></span></div>
       </div>
 <div class="pay-box" id="box-easypaisa">
         <div style="font-size:10px;color:var(--dim);margin-bottom:10px;letter-spacing:1.5px;text-transform:uppercase;font-family:'Space Mono',monospace;">Easypaisa Payment</div>
         <div class="pdr"><span class="pdl">Number</span><span class="pdv">03186350426<button class="cbtn" onclick="cp('03186350426',this)">Copy</button></span></div>
         <div class="pdr"><span class="pdl">Account Name</span><span class="pdv">Hassan Raza</span></div>
-        <div class="pdr"><span class="pdl">Amount (PKR)</span><span class="pdv" id="epAmt">PKR 27,800<button class="cbtn" onclick="cp('27800',this)">Copy</button></span></div>
+        <div class="pdr"><span class="pdl">Amount (PKR)</span><span class="pdv" id="epAmt">PKR 8,100<button class="cbtn" onclick="cp('8100',this)">Copy</button></span></div>
       </div>
 <div class="pay-box" id="box-sadapay">
         <div style="font-size:10px;color:var(--dim);margin-bottom:10px;letter-spacing:1.5px;text-transform:uppercase;font-family:'Space Mono',monospace;">SadaPay Payment</div>
         <div class="pdr"><span class="pdl">Number</span><span class="pdv">03186350426<button class="cbtn" onclick="cp('03186350426',this)">Copy</button></span></div>
         <div class="pdr"><span class="pdl">Account Name</span><span class="pdv">Hassan Raza</span></div>
-        <div class="pdr"><span class="pdl">Amount (PKR)</span><span class="pdv" id="spAmt">PKR 27,800<button class="cbtn" onclick="cp('27800',this)">Copy</button></span></div>
+        <div class="pdr"><span class="pdl">Amount (PKR)</span><span class="pdv" id="spAmt">PKR 8,100<button class="cbtn" onclick="cp('8100',this)">Copy</button></span></div>
       </div>
 <div class="pay-box" id="box-bank">
         <div style="font-size:10px;color:var(--dim);margin-bottom:10px;letter-spacing:1.5px;text-transform:uppercase;font-family:'Space Mono',monospace;">Bank Transfer — Meezan Bank</div>
         <div class="pdr"><span class="pdl">Bank</span><span class="pdv">Meezan Bank</span></div>
         <div class="pdr"><span class="pdl">Account Title</span><span class="pdv">Hassan Raza</span></div>
         <div class="pdr"><span class="pdl">IBAN</span><span class="pdv" style="font-size:10px;">PK66MEZN0000300112991020<button class="cbtn" onclick="cp('PK66MEZN0000300112991020',this)">Copy</button></span></div>
-        <div class="pdr"><span class="pdl">Amount (PKR)</span><span class="pdv" id="bankAmt">PKR 27,800<button class="cbtn" onclick="cp('27800',this)">Copy</button></span></div>
+        <div class="pdr"><span class="pdl">Amount (PKR)</span><span class="pdv" id="bankAmt">PKR 8,100<button class="cbtn" onclick="cp('8100',this)">Copy</button></span></div>
       </div>
 
       <div class="pay-notice" id="payNotice">⚠️ Payment ke baad receipt upload karein. Account <strong>1-2 hours</strong> mein activate hoga.</div>
@@ -410,24 +409,26 @@
 </div>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-const SUPA_URL='https://aorrltfzhiasahpxbzzz.supabase.co';
-const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvcnJsdGZ6aGlhc2FocHhienp6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2NTkwNDgsImV4cCI6MjA4OTIzNTA0OH0.bdvcl77-s1W1vpK610aoa0upefoYGu0Sl1qlPCWkdu8';
-let supa=null,currentUser=null;
+var supa=null,currentUser=null;
+var SUPA_URL='https://aorrltfzhiasahpxbzzz.supabase.co';
+var SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvcnJsdGZ6aGlhc2FocHhienp6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2NTkwNDgsImV4cCI6MjA4OTIzNTA0OH0.bdvcl77-s1W1vpK610aoa0upefoYGu0Sl1qlPCWkdu8';
 
-function openOverlay(id){const el=document.getElementById(id);if(el)el.classList.add('open');}
-function closeOverlay(id){const el=document.getElementById(id);if(el)el.classList.remove('open');}
+function openOverlay(id){var el=document.getElementById(id);if(el)el.classList.add('open');}
+function closeOverlay(id){var el=document.getElementById(id);if(el)el.classList.remove('open');}
 function closeBg(e,id){if(e.target===e.currentTarget)closeOverlay(id);}
 
 function showToast(msg,type){
-  let t=document.getElementById('toastEl');
+  var t=document.getElementById('toastEl');
   if(!t){t=document.createElement('div');t.id='toastEl';t.className='toast';document.body.appendChild(t);}
-  t.textContent=msg;t.className='toast show '+(type==='success'?'success':'warn');
-  clearTimeout(t._t);t._t=setTimeout(()=>{t.className='toast';},3500);
+  t.textContent=msg;
+  t.className='toast show '+(type==='success'?'success':'warn');
+  clearTimeout(t._t);
+  t._t=setTimeout(function(){t.className='toast';},3500);
 }
 
 function switchAuthTab(tab){
-  document.getElementById('authFormLogin').style.display=tab==='login'?'block':'none';
-  document.getElementById('authFormRegister').style.display=tab==='register'?'block':'none';
+  document.getElementById('authFormLogin').style.display=(tab==='login'?'block':'none');
+  document.getElementById('authFormRegister').style.display=(tab==='register'?'block':'none');
   document.getElementById('tabLogin').className='tab'+(tab==='login'?' active':'');
   document.getElementById('tabRegister').className='tab'+(tab==='register'?' active':'');
 }
@@ -436,125 +437,115 @@ function initSupabase(){
   try{
     if(typeof supabase!=='undefined'){
       supa=supabase.createClient(SUPA_URL,SUPA_KEY);
-      supa.auth.getSession().then(({data:{session}})=>{
+      supa.auth.getSession().then(function(r){
+        var session=r.data.session;
         if(session){currentUser=session.user;onUserLoggedIn(currentUser);}
       });
-      supa.auth.onAuthStateChange((_,session)=>{
-        currentUser=session?.user||null;
+      supa.auth.onAuthStateChange(function(_,session){
+        currentUser=session?session.user:null;
         if(currentUser)onUserLoggedIn(currentUser);else onUserLoggedOut();
       });
     }
-  }catch(e){console.error('Supabase init error:',e);}
+  }catch(e){console.error('Supabase:',e);}
 }
 
-async function doRegister(){
-  const name=document.getElementById('regName').value.trim();
-  const email=document.getElementById('regEmail').value.trim().toLowerCase();
-  const pass=document.getElementById('regPass').value;
-  const errEl=document.getElementById('regErr');
-  const btn=document.getElementById('regBtn');
+function doLogin(){
+  var email=document.getElementById('loginEmail').value.trim().toLowerCase();
+  var pass=document.getElementById('loginPass').value;
+  var errEl=document.getElementById('loginErr');
+  var btn=document.getElementById('loginBtn');
+  errEl.style.display='none';
+  if(!email||!pass){errEl.textContent='Email aur password darj karein.';errEl.style.display='block';return;}
+  btn.textContent='Signing in...';btn.disabled=true;
+  supa.auth.signInWithPassword({email:email,password:pass}).then(function(r){
+    btn.textContent='Sign In →';btn.disabled=false;
+    if(r.error){errEl.textContent=r.error.message==='Invalid login credentials'?'Email ya password galat hai.':r.error.message;errEl.style.display='block';return;}
+    closeOverlay('authOverlay');
+    showToast('Login successful!','success');
+    checkUserAccess(r.data.user);
+  }).catch(function(e){btn.textContent='Sign In →';btn.disabled=false;errEl.textContent=e.message;errEl.style.display='block';});
+}
+
+function doRegister(){
+  var name=document.getElementById('regName').value.trim();
+  var email=document.getElementById('regEmail').value.trim().toLowerCase();
+  var pass=document.getElementById('regPass').value;
+  var errEl=document.getElementById('regErr');
+  var btn=document.getElementById('regBtn');
   errEl.style.display='none';
   if(!name||!email||!pass){errEl.textContent='Sab fields zaruri hain.';errEl.style.display='block';return;}
   if(pass.length<6){errEl.textContent='Password minimum 6 characters.';errEl.style.display='block';return;}
   btn.textContent='Creating...';btn.disabled=true;
-  try{
-    const {data,error}=await supa.auth.signUp({email,password:pass,options:{data:{full_name:name}}});
-    if(error)throw error;
-    if(data.user){
-      await supa.from('profiles').upsert({id:data.user.id,email,full_name:name,plan:'free',status:'pending'},{onConflict:'id'}).catch(()=>{});
+  supa.auth.signUp({email:email,password:pass,options:{data:{full_name:name}}}).then(function(r){
+    btn.textContent='Create Account →';btn.disabled=false;
+    if(r.error){errEl.textContent=r.error.message;errEl.style.display='block';return;}
+    if(r.data.user){
+      supa.from('profiles').upsert({id:r.data.user.id,email:email,full_name:name,plan:'free',status:'pending'},{onConflict:'id'}).catch(function(){});
     }
     closeOverlay('authOverlay');
     showToast('Account created! Ab payment karein.','success');
-    setTimeout(()=>openOverlay('pendingOverlay'),600);
-  }catch(e){errEl.textContent=e.message||'Registration failed';errEl.style.display='block';}
-  btn.textContent='Create Account →';btn.disabled=false;
+    setTimeout(function(){openOverlay('pendingOverlay');},600);
+  }).catch(function(e){btn.textContent='Create Account →';btn.disabled=false;errEl.textContent=e.message;errEl.style.display='block';});
 }
 
-async function doLogin(){
-  const email=document.getElementById('loginEmail').value.trim().toLowerCase();
-  const pass=document.getElementById('loginPass').value;
-  const errEl=document.getElementById('loginErr');
-  const btn=document.getElementById('loginBtn');
-  errEl.style.display='none';
-  if(!email||!pass){errEl.textContent='Email aur password dono darj karein.';errEl.style.display='block';return;}
-  btn.textContent='Signing in...';btn.disabled=true;
-  try{
-    const {data,error}=await supa.auth.signInWithPassword({email,password:pass});
-    if(error)throw error;
-    closeOverlay('authOverlay');
-    showToast('Login successful!','success');
-    checkUserAccess(data.user);
-  }catch(e){
-    errEl.textContent=e.message==='Invalid login credentials'?'Email ya password galat hai.':e.message;
-    errEl.style.display='block';
-  }
-  btn.textContent='Sign In →';btn.disabled=false;
-}
-
-async function doReset(){
-  const email=document.getElementById('loginEmail').value.trim();
+function doReset(){
+  var email=document.getElementById('loginEmail').value.trim();
   if(!email){alert('Pehle email darj karein.');return;}
-  await supa.auth.resetPasswordForEmail(email);
-  showToast('Password reset email bhej diya!','success');
+  supa.auth.resetPasswordForEmail(email).then(function(){showToast('Reset email bhej diya!','success');});
 }
 
-async function doLogout(){
-  if(supa)await supa.auth.signOut();
-  currentUser=null;
-  onUserLoggedOut();
-  showToast('Signed out.','success');
-}
-
-async function checkUserAccess(user){
+function checkUserAccess(user){
   if(!user)return;
-  try{
-    const {data}=await supa.from('submissions').select('status,plan').eq('email',user.email).eq('status','approved').limit(1);
-    if(data&&data.length>0){
-      window._approvedPlan=data[0].plan||'Pro';
+  supa.from('submissions').select('status,plan').eq('email',user.email).eq('status','approved').limit(1).then(function(r){
+    if(r.data&&r.data.length>0){
+      window._approvedPlan=r.data[0].plan||'Pro';
       localStorage.setItem('bt_approved_'+user.email,window._approvedPlan);
       goToDashboard();
     } else {
-      const {data:prof}=await supa.from('profiles').select('status,plan').eq('email',user.email).limit(1);
-      if(prof&&prof[0]?.status==='approved'){
-        window._approvedPlan=prof[0].plan||'Pro';
-        goToDashboard();
-      } else {
-        openOverlay('pendingOverlay');
-      }
+      supa.from('profiles').select('status,plan').eq('email',user.email).limit(1).then(function(r2){
+        if(r2.data&&r2.data[0]&&r2.data[0].status==='approved'){
+          window._approvedPlan=r2.data[0].plan||'Pro';
+          goToDashboard();
+        } else {
+          openOverlay('pendingOverlay');
+        }
+      });
     }
-  }catch(e){
-    const saved=localStorage.getItem('bt_approved_'+user.email);
+  }).catch(function(){
+    var saved=localStorage.getItem('bt_approved_'+user.email);
     if(saved){window._approvedPlan=saved;goToDashboard();}
     else openOverlay('pendingOverlay');
-  }
+  });
 }
 
 function onUserLoggedIn(user){
-  const si=document.getElementById('navSignIn');
-  const gs=document.getElementById('navGetStarted');
-  const db=document.getElementById('navDashBtn');
+  var si=document.getElementById('navSignIn');
+  var gs=document.getElementById('navGetStarted');
+  var db=document.getElementById('navDashBtn');
   if(si)si.style.display='none';
   if(gs)gs.style.display='none';
   if(db)db.style.display='flex';
 }
 function onUserLoggedOut(){
-  const si=document.getElementById('navSignIn');
-  const gs=document.getElementById('navGetStarted');
-  const db=document.getElementById('navDashBtn');
+  var si=document.getElementById('navSignIn');
+  var gs=document.getElementById('navGetStarted');
+  var db=document.getElementById('navDashBtn');
   if(si)si.style.display='flex';
   if(gs)gs.style.display='flex';
   if(db)db.style.display='none';
 }
-
 function goToDashboard(){
   if(currentUser){
-    const sess={email:currentUser.email,id:currentUser.id,ts:Date.now(),plan:window._approvedPlan||'Pro'};
+    var sess={email:currentUser.email,id:currentUser.id,ts:Date.now(),plan:window._approvedPlan||'Pro'};
     localStorage.setItem('bt_session',JSON.stringify(sess));
   }
   window.location.href='dashboard.html';
 }
 
 // ── ADMIN ──
+var submissions=[];
+try{submissions=JSON.parse(localStorage.getItem('bt_subs')||'[]');}catch(e){}
+var aFilterVal='all';
 function getCreds(){return{user:localStorage.getItem('bt_au')||'admin',pass:localStorage.getItem('bt_ap')||'bloom@2025'};}
 function showAdmin(){
   document.getElementById('adminScreen').style.display='flex';
@@ -569,215 +560,180 @@ function showLanding(){
   document.getElementById('landingScreen').style.display='block';
 }
 function adminLogin(){
-  const u=document.getElementById('adminUser').value.trim();
-  const p=document.getElementById('adminPass').value;
-  const creds=getCreds();
+  var u=document.getElementById('adminUser').value.trim();
+  var p=document.getElementById('adminPass').value;
+  var creds=getCreds();
   if(u===creds.user&&p===creds.pass){
     document.getElementById('adminLoginWrap').style.display='none';
     document.getElementById('adminDashWrap').style.display='flex';
-    document.getElementById('adminWelcome').textContent='Hello, '+u;
+    var aw=document.getElementById('adminWelcome');if(aw)aw.textContent='Hello, '+u;
     renderAdmin();updateAdminStats();
   } else {
-    const e=document.getElementById('adminErr');if(e){e.style.display='block';setTimeout(()=>e.style.display='none',3000);}
+    var e=document.getElementById('adminErr');if(e){e.style.display='block';setTimeout(function(){e.style.display='none';},3000);}
   }
 }
 function adminLogout(){showLanding();}
-let aFilterVal='all';
 function aFilter(f,btn){
   aFilterVal=f;
-  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.fbtn').forEach(function(b){b.classList.remove('on');});
   btn.classList.add('on');renderAdmin();
 }
-async function renderAdmin(){
-  const q=(document.getElementById('aSrch')?.value||'').toLowerCase();
+function renderAdmin(){
+  var q=(document.getElementById('aSrch')?document.getElementById('aSrch').value:'').toLowerCase();
   if(supa){
-    const {data:rd}=await supa.from('submissions').select('*').order('id',{ascending:false}).catch(()=>({data:null}));
-    if(rd&&rd.length>0)submissions=rd.map(s=>({...s,date:(s.created_at||'').slice(0,16)||'—'}));
-  }
-  const filtered=submissions.filter(s=>(aFilterVal==='all'||s.status===aFilterVal)&&(!q||(s.name||'').toLowerCase().includes(q)||(s.email||'').toLowerCase().includes(q)));
-  const tbody=document.getElementById('adminTbody');
-  const empty=document.getElementById('adminEmpty');
+    supa.from('submissions').select('*').order('id',{ascending:false}).then(function(r){
+      if(r.data&&r.data.length>0)submissions=r.data.map(function(s){return Object.assign({},s,{date:(s.created_at||'').slice(0,16)||'—'});});
+      _renderAdminTable(q);
+    });
+  } else { _renderAdminTable(q); }
+}
+function _renderAdminTable(q){
+  var filtered=submissions.filter(function(s){return(aFilterVal==='all'||s.status===aFilterVal)&&(!q||(s.name||'').toLowerCase().includes(q)||(s.email||'').toLowerCase().includes(q));});
+  var tbody=document.getElementById('adminTbody');
+  var empty=document.getElementById('adminEmpty');
   if(!tbody)return;
   if(filtered.length===0){tbody.innerHTML='';if(empty)empty.style.display='block';return;}
   if(empty)empty.style.display='none';
-  tbody.innerHTML=filtered.map(s=>`<tr>
-    <td style="font-size:10px;color:var(--dim)">#${s.id}</td>
-    <td style="font-weight:500">${s.name||''}</td>
-    <td style="color:var(--dim)">${s.email||''}</td>
-    <td><span class="badge ${(s.plan||'').toLowerCase()}">${s.plan||''}</span></td>
-    <td>${s.method||''}</td>
-    <td style="color:var(--gold)">${s.amount||''}</td>
-    <td style="font-size:11px;color:var(--dim)">${s.date||'—'}</td>
-    <td><span class="badge ${s.status}">${(s.status||'').charAt(0).toUpperCase()+(s.status||'').slice(1)}</span></td>
-    <td><div class="action-btns">
-      <button class="abtn view" onclick="viewSub(${s.id})">View</button>
-      ${s.status!=='approved'?'<button class="abtn approve" onclick="approveUser('+s.id+')">✓ Approve</button>':''}
-      ${s.status!=='rejected'?'<button class="abtn reject" onclick="setStatus('+s.id+",'rejected'"+')">✗ Reject</button>':''}
-    </div></td>
-  </tr>`).join('');
+  tbody.innerHTML=filtered.map(function(s){
+    return '<tr><td style="font-size:10px;color:var(--dim)">#'+s.id+'</td><td>'+( s.name||'')+'</td><td style="color:var(--dim)">'+(s.email||'')+'</td><td><span class="badge '+(s.plan||'').toLowerCase()+'">'+(s.plan||'')+'</span></td><td>'+(s.method||'')+'</td><td style="color:var(--gold)">'+(s.amount||'')+'</td><td style="font-size:11px;color:var(--dim)">'+(s.date||'—')+'</td><td><span class="badge '+s.status+'">'+(s.status||'').charAt(0).toUpperCase()+(s.status||'').slice(1)+'</span></td><td><div class="action-btns"><button class="abtn view" onclick="viewSub('+s.id+')">View</button>'+(s.status!=='approved'?'<button class="abtn approve" onclick="approveUser('+s.id+')">✓ Approve</button>':'')+(s.status!=='rejected'?'<button class="abtn reject" onclick="setStatus('+s.id+",'"+"rejected"+"'"+')">✗ Reject</button>':'')+'</div></td></tr>';
+  }).join('');
   updateAdminStats();
 }
 function updateAdminStats(){
-  const el=id=>document.getElementById(id);
-  if(el('aSTotal'))el('aSTotal').textContent=submissions.length;
-  if(el('aSPend'))el('aSPend').textContent=submissions.filter(s=>s.status==='pending').length;
-  if(el('aSApp'))el('aSApp').textContent=submissions.filter(s=>s.status==='approved').length;
-  if(el('aSRej'))el('aSRej').textContent=submissions.filter(s=>s.status==='rejected').length;
+  var ids=['aSTotal','aSPend','aSApp','aSRej'];
+  var vals=[submissions.length,submissions.filter(function(s){return s.status==='pending';}).length,submissions.filter(function(s){return s.status==='approved';}).length,submissions.filter(function(s){return s.status==='rejected';}).length];
+  ids.forEach(function(id,i){var el=document.getElementById(id);if(el)el.textContent=vals[i];});
 }
-async function approveUser(id){
-  const s=submissions.find(x=>x.id===id);if(!s)return;
+function approveUser(id){
+  var s=submissions.find(function(x){return x.id===id;});if(!s)return;
   s.status='approved';
   if(supa){
-    await supa.from('submissions').update({status:'approved'}).eq('id',id).catch(()=>{});
+    supa.from('submissions').update({status:'approved'}).eq('id',id).catch(function(){});
     if(s.email){
-      await supa.from('profiles').update({status:'approved',plan:s.plan||'Pro'}).eq('email',s.email).catch(()=>{});
+      supa.from('profiles').update({status:'approved',plan:s.plan||'Pro'}).eq('email',s.email).catch(function(){});
       localStorage.setItem('bt_approved_'+s.email,s.plan||'Pro');
     }
   }
   localStorage.setItem('bt_subs',JSON.stringify(submissions));
   renderAdmin();showToast('User approved: '+s.email,'success');
 }
-async function setStatus(id,st){
-  const s=submissions.find(x=>x.id===id);if(!s)return;
+function setStatus(id,st){
+  var s=submissions.find(function(x){return x.id===id;});if(!s)return;
   s.status=st;
-  if(supa)await supa.from('submissions').update({status:st}).eq('id',id).catch(()=>{});
+  if(supa)supa.from('submissions').update({status:st}).eq('id',id).catch(function(){});
   localStorage.setItem('bt_subs',JSON.stringify(submissions));
   renderAdmin();showToast('Status: '+st,'success');
 }
 function viewSub(id){
-  const s=submissions.find(x=>x.id===id);if(!s)return;
-  const el=document.getElementById('viewDetails');
-  if(el)el.innerHTML=`
-    <div class="vdr"><span class="vdl">Name</span><span class="vdv">${s.name}</span></div>
-    <div class="vdr"><span class="vdl">Email</span><span class="vdv">${s.email}</span></div>
-    <div class="vdr"><span class="vdl">Phone</span><span class="vdv">${s.phone||'—'}</span></div>
-    <div class="vdr"><span class="vdl">Plan</span><span class="vdv">${s.plan}</span></div>
-    <div class="vdr"><span class="vdl">Method</span><span class="vdv">${s.method}</span></div>
-    <div class="vdr"><span class="vdl">Amount</span><span class="vdv" style="color:var(--gold)">${s.amount}</span></div>
-    <div class="vdr"><span class="vdl">Date</span><span class="vdv">${s.date}</span></div>
-    <div class="vdr"><span class="vdl">Status</span><span class="vdv"><span class="badge ${s.status}">${s.status}</span></span></div>
-    <div style="display:flex;gap:10px;margin-top:16px;">
-      ${s.status!=='approved'?'<button class="abtn approve" style="flex:1;padding:10px;font-size:13px" onclick="approveUser('+s.id+');closeVOverlay()">✓ Approve</button>':''}
-      ${s.status!=='rejected'?'<button class="abtn reject" style="flex:1;padding:10px;font-size:13px" onclick="setStatus('+s.id+",'rejected'"+');closeVOverlay()">✗ Reject</button>':''}
-    </div>`;
-  const vo=document.getElementById('viewOverlay');if(vo)vo.classList.add('open');
+  var s=submissions.find(function(x){return x.id===id;});if(!s)return;
+  var el=document.getElementById('viewDetails');
+  if(el)el.innerHTML='<div class="vdr"><span class="vdl">Name</span><span class="vdv">'+s.name+'</span></div><div class="vdr"><span class="vdl">Email</span><span class="vdv">'+s.email+'</span></div><div class="vdr"><span class="vdl">Plan</span><span class="vdv">'+s.plan+'</span></div><div class="vdr"><span class="vdl">Method</span><span class="vdv">'+s.method+'</span></div><div class="vdr"><span class="vdl">Amount</span><span class="vdv" style="color:var(--gold)">'+s.amount+'</span></div><div class="vdr"><span class="vdl">Status</span><span class="vdv"><span class="badge '+s.status+'">'+s.status+'</span></span></div><div style="display:flex;gap:10px;margin-top:16px;">'+(s.status!=='approved'?'<button class="abtn approve" style="flex:1;padding:10px" onclick="approveUser('+s.id+');closeVOverlay()">✓ Approve</button>':'')+(s.status!=='rejected'?'<button class="abtn reject" style="flex:1;padding:10px" onclick="setStatus('+s.id+",'"+"rejected"+"'"+');closeVOverlay()">✗ Reject</button>':'')+'</div>';
+  var vo=document.getElementById('viewOverlay');if(vo)vo.classList.add('open');
 }
-function closeVOverlay(e){if(!e||e.target===document.getElementById('viewOverlay'))document.getElementById('viewOverlay')?.classList.remove('open');}
-async function addMemberManually(){
-  const email=document.getElementById('manualEmail')?.value.trim().toLowerCase();
-  const plan=document.getElementById('manualPlan')?.value;
-  const msg=document.getElementById('manualMsg');
+function closeVOverlay(e){if(!e||e.target===document.getElementById('viewOverlay'))if(document.getElementById('viewOverlay'))document.getElementById('viewOverlay').classList.remove('open');}
+function addMemberManually(){
+  var email=document.getElementById('manualEmail')?document.getElementById('manualEmail').value.trim().toLowerCase():'';
+  var plan=document.getElementById('manualPlan')?document.getElementById('manualPlan').value:'Pro';
+  var msg=document.getElementById('manualMsg');
   if(!email){if(msg){msg.textContent='Email zaruri hai.';msg.style.color='var(--red)';msg.style.display='block';}return;}
   if(msg){msg.textContent='Adding...';msg.style.color='var(--gold)';msg.style.display='block';}
-  try{
-    const sub={name:email.split('@')[0],email,phone:'—',plan,method:'Manual',amount:'Manual',status:'approved',created_at:new Date().toISOString()};
-    if(supa){
-      await supa.from('submissions').upsert(sub,{onConflict:'email'}).catch(()=>{});
-      await supa.from('profiles').upsert({email,full_name:sub.name,plan,status:'approved'},{onConflict:'email'}).catch(()=>{});
-    }
-    localStorage.setItem('bt_approved_'+email,plan);
-    submissions.push({...sub,id:Date.now(),date:new Date().toISOString().slice(0,16)});
-    if(msg){msg.textContent='Access granted: '+email;msg.style.color='var(--green)';}
-    if(document.getElementById('manualEmail'))document.getElementById('manualEmail').value='';
-    renderAdmin();
-  }catch(e){if(msg){msg.textContent='Error: '+(e.message||'Failed');msg.style.color='var(--red)';}}
-  setTimeout(()=>{if(msg)msg.style.display='none';},4000);
+  var sub={name:email.split('@')[0],email:email,phone:'—',plan:plan,method:'Manual',amount:'Manual',status:'approved',created_at:new Date().toISOString()};
+  if(supa){
+    supa.from('submissions').upsert(sub,{onConflict:'email'}).catch(function(){});
+    supa.from('profiles').upsert({email:email,full_name:sub.name,plan:plan,status:'approved'},{onConflict:'email'}).catch(function(){});
+  }
+  localStorage.setItem('bt_approved_'+email,plan);
+  submissions.push(Object.assign({},sub,{id:Date.now(),date:new Date().toISOString().slice(0,16)}));
+  if(msg){msg.textContent='Access granted: '+email;msg.style.color='var(--green)';}
+  if(document.getElementById('manualEmail'))document.getElementById('manualEmail').value='';
+  renderAdmin();
+  setTimeout(function(){if(msg)msg.style.display='none';},4000);
 }
 function saveCreds(){
-  const u=document.getElementById('newUser')?.value.trim();
-  const p=document.getElementById('newPass')?.value;
-  const cf=document.getElementById('cfPass')?.value;
-  const msg=document.getElementById('setMsg');
-  if(!u||!p){if(msg){msg.textContent='Fields required.';msg.style.color='var(--red)';msg.style.display='block';setTimeout(()=>msg.style.display='none',3000);}return;}
-  if(p!==cf){if(msg){msg.textContent='Passwords do not match.';msg.style.color='var(--red)';msg.style.display='block';setTimeout(()=>msg.style.display='none',3000);}return;}
+  var u=document.getElementById('newUser')?document.getElementById('newUser').value.trim():'';
+  var p=document.getElementById('newPass')?document.getElementById('newPass').value:'';
+  var cf=document.getElementById('cfPass')?document.getElementById('cfPass').value:'';
+  var msg=document.getElementById('setMsg');
+  if(!u||!p){if(msg){msg.textContent='Fields required.';msg.style.color='var(--red)';msg.style.display='block';setTimeout(function(){msg.style.display='none';},3000);}return;}
+  if(p!==cf){if(msg){msg.textContent='Passwords do not match.';msg.style.color='var(--red)';msg.style.display='block';setTimeout(function(){msg.style.display='none';},3000);}return;}
   localStorage.setItem('bt_au',u);localStorage.setItem('bt_ap',p);
-  if(msg){msg.textContent='Updated!';msg.style.color='var(--green)';msg.style.display='block';setTimeout(()=>msg.style.display='none',3000);}
+  if(msg){msg.textContent='Updated!';msg.style.color='var(--green)';msg.style.display='block';setTimeout(function(){msg.style.display='none';},3000);}
 }
 
-// ── PAY MODAL ──
-let _curPlan='Pro',_curLabel='$100 / PKR 27,800',_curUsd=100,_curPkr=27800;
+// ── PAYMENT ──
+var _curPlan='Pro',_curLabel='$100 / PKR 27,800',_curUsd=100,_curPkr=27800;
 function openPayModal(plan,label,usd,pkr){
   _curPlan=plan;_curLabel=label;_curUsd=usd;_curPkr=pkr;
-  const pl=document.getElementById('payPillLabel');if(pl)pl.textContent=plan+' — '+label;
-  document.querySelectorAll('.pay-box').forEach(b=>b.classList.remove('vis'));
-  document.querySelectorAll('.pm-btn').forEach(b=>b.classList.remove('sel'));
-  const pn=document.getElementById('payNotice');if(pn)pn.style.display='none';
-  const pr=document.getElementById('payReceiptSec');if(pr)pr.style.display='none';
-  const ps=document.getElementById('paySuccess');if(ps)ps.classList.remove('vis');
-  const p1=document.getElementById('payStep1');if(p1)p1.style.display='block';
-  const ca=document.getElementById('cryptoAmt');if(ca)ca.innerHTML='$'+usd+'.00<button class="cbtn" onclick="cp(''+usd+'',this)">Copy</button>';
-  ['jazzAmt','epAmt','spAmt','bankAmt'].forEach(id=>{const e=document.getElementById(id);if(e)e.innerHTML='PKR '+pkr.toLocaleString()+'<button class="cbtn" onclick="cp(''+pkr+'',this)">Copy</button>';});
+  var pl=document.getElementById('payPillLabel');if(pl)pl.textContent=plan+' — '+label;
+  document.querySelectorAll('.pay-box').forEach(function(b){b.classList.remove('vis');});
+  document.querySelectorAll('.pm-btn').forEach(function(b){b.classList.remove('sel');});
+  var pn=document.getElementById('payNotice');if(pn)pn.style.display='none';
+  var pr=document.getElementById('payReceiptSec');if(pr)pr.style.display='none';
+  var ps=document.getElementById('paySuccess');if(ps)ps.classList.remove('vis');
+  var p1=document.getElementById('payStep1');if(p1)p1.style.display='block';
+  var ca=document.getElementById('cryptoAmt');if(ca)ca.innerHTML='$'+usd+'.00<button class="cbtn" onclick="cp(''+usd+'',this)">Copy</button>';
+  ['jazzAmt','epAmt','spAmt','bankAmt'].forEach(function(id){var e=document.getElementById(id);if(e)e.innerHTML='PKR '+pkr.toLocaleString()+'<button class="cbtn" onclick="cp(''+pkr+'',this)">Copy</button>';});
   openOverlay('payOverlay');
 }
 function selectPay(method,btn){
-  document.querySelectorAll('.pm-btn').forEach(b=>b.classList.remove('sel'));
+  document.querySelectorAll('.pm-btn').forEach(function(b){b.classList.remove('sel');});
   btn.classList.add('sel');
-  document.querySelectorAll('.pay-box').forEach(b=>b.classList.remove('vis'));
-  const box=document.getElementById('box-'+method);if(box)box.classList.add('vis');
-  const pn=document.getElementById('payNotice');if(pn)pn.style.display='block';
-  const pr=document.getElementById('payReceiptSec');if(pr)pr.style.display='block';
+  document.querySelectorAll('.pay-box').forEach(function(b){b.classList.remove('vis');});
+  var box=document.getElementById('box-'+method);if(box)box.classList.add('vis');
+  var pn=document.getElementById('payNotice');if(pn)pn.style.display='block';
+  var pr=document.getElementById('payReceiptSec');if(pr)pr.style.display='block';
 }
 function cp(txt,btn){
-  navigator.clipboard.writeText(txt).catch(()=>{});
-  if(btn){btn.textContent='✓';btn.classList.add('copied');setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},2000);}
+  navigator.clipboard.writeText(txt).catch(function(){});
+  if(btn){btn.textContent='✓';btn.classList.add('copied');setTimeout(function(){btn.textContent='Copy';btn.classList.remove('copied');},2000);}
 }
 function handleUpload(inp){
   if(inp.files&&inp.files[0]){
-    const fn=document.getElementById('uploadFN');if(fn){fn.textContent=inp.files[0].name;fn.style.display='block';}
-    const ua=document.getElementById('uploadArea');if(ua)ua.classList.add('has-file');
+    var fn=document.getElementById('uploadFN');if(fn){fn.textContent=inp.files[0].name;fn.style.display='block';}
+    var ua=document.getElementById('uploadArea');if(ua)ua.classList.add('has-file');
   }
 }
-async function submitPay(){
-  const name=document.getElementById('payerName')?.value.trim();
-  const email=document.getElementById('payerEmail')?.value.trim().toLowerCase();
-  const phone=document.getElementById('payerPhone')?.value.trim()||'—';
+function submitPay(){
+  var name=document.getElementById('payerName')?document.getElementById('payerName').value.trim():'';
+  var email=document.getElementById('payerEmail')?document.getElementById('payerEmail').value.trim().toLowerCase():'';
+  var phone=document.getElementById('payerPhone')?document.getElementById('payerPhone').value.trim():'—';
   if(!name||!email){showToast('Name aur email zaruri hain.','warn');return;}
-  const method=document.querySelector('.pm-btn.sel .pm-name')?.textContent||'—';
-  const sub={name,email,phone,plan:_curPlan,method,amount:'$'+_curUsd+' / PKR '+_curPkr.toLocaleString(),status:'pending',date:new Date().toISOString().slice(0,16),id:Date.now()};
+  var method=document.querySelector('.pm-btn.sel .pm-name')?document.querySelector('.pm-btn.sel .pm-name').textContent:'—';
+  var sub={name:name,email:email,phone:phone,plan:_curPlan,method:method,amount:'$'+_curUsd+' / PKR '+_curPkr.toLocaleString(),status:'pending',date:new Date().toISOString().slice(0,16),id:Date.now()};
   submissions.push(sub);
   localStorage.setItem('bt_subs',JSON.stringify(submissions));
-  if(supa)await supa.from('submissions').insert([{name,email,phone,plan:_curPlan,method,amount:sub.amount,status:'pending'}]).catch(()=>{});
-  const p1=document.getElementById('payStep1');if(p1)p1.style.display='none';
-  const ps=document.getElementById('paySuccess');if(ps)ps.classList.add('vis');
+  if(supa)supa.from('submissions').insert([{name:name,email:email,phone:phone,plan:_curPlan,method:method,amount:sub.amount,status:'pending'}]).catch(function(){});
+  var p1=document.getElementById('payStep1');if(p1)p1.style.display='none';
+  var ps=document.getElementById('paySuccess');if(ps)ps.classList.add('vis');
   showToast('Receipt submitted!','success');
 }
 
-// ── TICKER + CHART ──
+// ── TICKER ──
 function initTicker(){
-  const pairs=[['BTC',94200,1.2],['ETH',3280,-0.8],['SOL',185,2.1],['BNB',620,0.5],['XRP',0.62,-1.3],['DOGE',0.18,3.4],['ADA',0.72,1.8],['AVAX',22,-0.6]];
-  const track=document.getElementById('tickerTrack');
-  if(!track)return;
-  const items=[...pairs,...pairs].map(([s,p,ch])=>`<div class="tick"><span class="ts">${s}/USDT</span><span class="tp">$${p.toLocaleString()}</span><span class="${ch>=0?'tu':'td'}">${ch>=0?'+':''}${ch}%</span></div>`).join('');
+  var pairs=[['BTC',94200,1.2],['ETH',3280,-0.8],['SOL',185,2.1],['BNB',620,0.5],['XRP',0.62,-1.3],['DOGE',0.18,3.4],['ADA',0.72,1.8],['AVAX',22,-0.6]];
+  var track=document.getElementById('tickerTrack');if(!track)return;
+  var items=pairs.concat(pairs).map(function(p){return '<div class="tick"><span class="ts">'+p[0]+'/USDT</span><span class="tp">$'+p[1].toLocaleString()+'</span><span class="'+(p[2]>=0?'tu':'td')+'">'+(p[2]>=0?'+':'')+p[2]+'%</span></div>';}).join('');
   track.innerHTML=items;
 }
 function initLandingChart(){
-  const bars=document.querySelectorAll('.cbar');
-  const heights=[40,65,45,80,60,90,55,75,50,85,70,95,60,88,72];
-  bars.forEach((b,i)=>{setTimeout(()=>{b.style.height=(heights[i%heights.length])+'%';},i*60);});
+  var bars=document.querySelectorAll('.cbar');
+  var heights=[40,65,45,80,60,90,55,75,50,85,70,95,60,88,72];
+  bars.forEach(function(b,i){setTimeout(function(){b.style.height=heights[i%heights.length]+'%';},i*60);});
 }
 
-// ── SUBMISSIONS STORE ──
-let submissions=[];
-try{submissions=JSON.parse(localStorage.getItem('bt_subs')||'[]');}catch(e){}
-
-// ── INIT ──
 window.addEventListener('load',function(){
   initSupabase();
   initTicker();
   initLandingChart();
-  // Admin secret URL
-  if(window.location.hash==='#adminportal2025') setTimeout(()=>showAdmin(),400);
-  // Pending redirect
-  if(window.location.search.includes('pending=1')) setTimeout(()=>openOverlay('pendingOverlay'),500);
-  // Restore session
-  const sess=localStorage.getItem('bt_session');
-  if(sess){try{const s=JSON.parse(sess);if(s.email&&(Date.now()-s.ts)<30*24*60*60*1000)onUserLoggedIn({email:s.email});}catch(e){}}
+  if(window.location.hash==='#adminportal2025')setTimeout(function(){showAdmin();},400);
+  if(window.location.search.includes('pending=1'))setTimeout(function(){openOverlay('pendingOverlay');},500);
+  var sess=localStorage.getItem('bt_session');
+  if(sess){try{var s=JSON.parse(sess);if(s.email&&(Date.now()-s.ts)<30*24*60*60*1000)onUserLoggedIn({email:s.email});}catch(e){}}
 });
 
-// Smooth scroll
-document.querySelectorAll("a[href^='#']").forEach(a=>{
-  a.addEventListener('click',e=>{
-    const t=document.querySelector(a.getAttribute('href'));
+document.querySelectorAll("a[href^='#']").forEach(function(a){
+  a.addEventListener('click',function(e){
+    var t=document.querySelector(a.getAttribute('href'));
     if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}
   });
 });
