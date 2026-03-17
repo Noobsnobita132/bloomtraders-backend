@@ -1,6 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+<script>
+// ── DASHBOARD AUTH GUARD ──
+// Run before anything else — block access if not logged in & approved
+(function(){
+  const SUPA_URL = 'https://aorrltfzhiasahpxbzzz.supabase.co';
+  const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvcnJsdGZ6aGlhc2FocHhienp6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2NTkwNDgsImV4cCI6MjA4OTIzNTA0OH0.bdvcl77-s1W1vpK610aoa0upefoYGu0Sl1qlPCWkdu8';
+
+  // Check localStorage session (fast check)
+  const sess = localStorage.getItem('bt_session');
+  if(sess){
+    try{
+      const s = JSON.parse(sess);
+      // Session valid for 30 days
+      if(s.email && (Date.now()-s.ts) < 30*24*60*60*1000){
+        window._btUser = s; // store for later use
+        return; // Allow access
+      }
+    }catch(e){}
+  }
+
+  // No valid session — redirect to home
+  window.location.replace('index.html');
+})();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f5a623">
@@ -14,6 +39,7 @@
 <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.3.1/dist/chartjs-adapter-luxon.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@0.2.1/dist/chartjs-chart-financial.min.js"></script>
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="https://s3.tradingview.com/tv.js"></script>
 <style>
 :root{
@@ -1862,7 +1888,9 @@ a[href="index.html"]{font-family:'Space Mono',monospace !important;}
     <div style="display:flex;align-items:center;gap:5px;padding:5px 10px;border-radius:20px;font-size:9px;font-family:'IBM Plex Mono',monospace;font-weight:600;border:1px solid var(--g-border);background:linear-gradient(145deg,rgba(255,255,255,0.08),rgba(255,255,255,0.04));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--text3);transition:color .3s;" id="dsLabel">📡 --</div>
     <div class="watcher-badge watcher-off" id="watcherBadge" onclick="toggleVolumeWatcher()" title="Volume Spike Watcher — Click to toggle">⚡ WATCHER OFF</div>
     <span class="clock" id="clock">--:--:-- UTC</span>
-    <a href="index.html" style="margin-left:6px;background:rgba(255,184,48,.1);border:1px solid rgba(255,184,48,.3);color:#ffb830;font-size:10px;font-weight:700;font-family:'IBM Plex Mono',monospace;padding:5px 12px;border-radius:8px;text-decoration:none;white-space:nowrap;" onmouseover="this.style.background='rgba(255,184,48,.22)'" onmouseout="this.style.background='rgba(255,184,48,.1)'">← HOME</a>
+    <span id="dbUserBadge" style="font-size:10px;color:var(--text3);font-family:'IBM Plex Mono',monospace;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:4px 10px;border-radius:8px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+    <button onclick="dbLogout()" style="background:rgba(255,68,102,.08);border:1px solid rgba(255,68,102,.2);color:var(--red);font-size:10px;font-weight:700;font-family:'IBM Plex Mono',monospace;padding:5px 10px;border-radius:8px;cursor:pointer;white-space:nowrap;transition:all .2s;" onmouseover="this.style.background='rgba(255,68,102,.18)'" onmouseout="this.style.background='rgba(255,68,102,.08)'">Sign Out</button>
+    <a href="index.html" style="margin-left:2px;background:rgba(255,184,48,.1);border:1px solid rgba(255,184,48,.3);color:#ffb830;font-size:10px;font-weight:700;font-family:'IBM Plex Mono',monospace;padding:5px 12px;border-radius:8px;text-decoration:none;white-space:nowrap;" onmouseover="this.style.background='rgba(255,184,48,.22)'" onmouseout="this.style.background='rgba(255,184,48,.1)'">← HOME</a>
     <button class="theme-icon" id="themeBtn" onclick="toggleTheme()" title="Light/Dark Mode">🌙</button>
     <button class="scan-btn" id="scanBtn" onclick="runScan()">🔍 SCAN</button>
   </div>
@@ -2091,24 +2119,33 @@ a[href="index.html"]{font-family:'Space Mono',monospace !important;}
   <div class="intel-panel" id="confirmedSignalsPanel" style="min-height:0;">
     <div class="intel-hdr">
       <div class="intel-title" style="font-size:11px;color:var(--gold);">🎯 Confirmed Signals — High Confidence</div>
-      <button class="intel-refresh" onclick="runMultiScan()" style="font-size:9px;padding:3px 8px;">⚡ Rescan</button>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span style="font-size:8px;color:var(--text3);font-family:'IBM Plex Mono',monospace;">✓=Pass ✗=Fail</span>
+        <button class="intel-refresh" onclick="runMultiScan()" style="font-size:9px;padding:3px 8px;">⚡ Rescan</button>
+      </div>
     </div>
     <div id="confirmedSignalsGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px;">
       <div>
-        <div style="font-size:9px;color:var(--green);font-weight:800;font-family:'IBM Plex Mono',monospace;letter-spacing:1px;margin-bottom:5px;padding:3px 8px;background:rgba(15,212,126,0.08);border:1px solid rgba(15,212,126,0.2);border-radius:6px;">⬆ CONFIRMED LONG</div>
-        <div id="confirmedLongList" style="display:flex;flex-direction:column;gap:4px;">
+        <div style="font-size:9px;color:var(--green);font-weight:800;font-family:'IBM Plex Mono',monospace;letter-spacing:1px;margin-bottom:5px;padding:3px 8px;background:rgba(15,212,126,0.08);border:1px solid rgba(15,212,126,0.2);border-radius:6px;display:flex;justify-content:space-between;align-items:center;">
+          <span>⬆ CONFIRMED LONG</span>
+          <span id="longCount" style="font-size:8px;opacity:.7;">0</span>
+        </div>
+        <div id="confirmedLongList" style="display:flex;flex-direction:column;gap:5px;">
           <div style="color:var(--text3);font-size:9px;font-family:'IBM Plex Mono',monospace;padding:8px;text-align:center;opacity:0.6;">Scanning...</div>
         </div>
       </div>
       <div>
-        <div style="font-size:9px;color:var(--red);font-weight:800;font-family:'IBM Plex Mono',monospace;letter-spacing:1px;margin-bottom:5px;padding:3px 8px;background:rgba(255,68,102,0.08);border:1px solid rgba(255,68,102,0.2);border-radius:6px;">⬇ CONFIRMED SHORT</div>
-        <div id="confirmedShortList" style="display:flex;flex-direction:column;gap:4px;">
+        <div style="font-size:9px;color:var(--red);font-weight:800;font-family:'IBM Plex Mono',monospace;letter-spacing:1px;margin-bottom:5px;padding:3px 8px;background:rgba(255,68,102,0.08);border:1px solid rgba(255,68,102,0.2);border-radius:6px;display:flex;justify-content:space-between;align-items:center;">
+          <span>⬇ CONFIRMED SHORT</span>
+          <span id="shortCount" style="font-size:8px;opacity:.7;">0</span>
+        </div>
+        <div id="confirmedShortList" style="display:flex;flex-direction:column;gap:5px;">
           <div style="color:var(--text3);font-size:9px;font-family:'IBM Plex Mono',monospace;padding:8px;text-align:center;opacity:0.6;">Scanning...</div>
         </div>
       </div>
     </div>
-    <div style="margin-top:7px;font-size:8px;color:var(--text3);font-family:'IBM Plex Mono',monospace;text-align:center;padding:4px 8px;background:rgba(255,184,48,0.04);border-radius:6px;border:1px solid rgba(255,184,48,0.1);">
-      ⚠️ conf ≥75% + ENTER only • Click to open chart
+    <div style="margin-top:8px;font-size:8px;color:var(--text3);font-family:'IBM Plex Mono',monospace;text-align:center;padding:4px 8px;background:rgba(255,184,48,0.04);border-radius:6px;border:1px solid rgba(255,184,48,0.1);">
+      ⚠️ conf ≥75% + ENTER only &nbsp;|&nbsp; 6/6 = strongest signal &nbsp;|&nbsp; Click to open chart
     </div>
   </div>
 
@@ -4577,37 +4614,101 @@ function renderConfirmedSignals(results){
   const shortEl=document.getElementById('confirmedShortList');
   if(!longEl||!shortEl)return;
 
-  // Filter: ENTER only, conf>=75, sort by conf desc
   const enters=results.filter(r=>r.sig.action==='ENTER'&&r.sig.conf>=75).sort((a,b)=>b.sig.conf-a.sig.conf);
-  const longs=enters.filter(r=>r.sig.isLong).slice(0,8);
-  const shorts=enters.filter(r=>!r.sig.isLong).slice(0,8);
+  const longs=enters.filter(r=>r.sig.isLong).slice(0,12);
+  const shorts=enters.filter(r=>!r.sig.isLong).slice(0,12);
+
+  // Build 6 confirmation checks from sig data
+  function getConfirmations(sig, isLong) {
+    const checks = [
+      {
+        label: 'RSI',
+        val: sig.rsi ? sig.rsi.toFixed(0) : '--',
+        ok: isLong ? (sig.rsi < 50) : (sig.rsi > 50),
+        detail: isLong ? (sig.rsi<30?'Oversold':'Below 50') : (sig.rsi>70?'Overbought':'Above 50')
+      },
+      {
+        label: 'MACD',
+        val: sig.macdHist > 0 ? '+' : '-',
+        ok: isLong ? sig.macdHist > 0 : sig.macdHist < 0,
+        detail: sig.macdHist > 0 ? 'Bullish Cross' : 'Bearish Cross'
+      },
+      {
+        label: 'MA Trend',
+        val: sig.ma20 > sig.ma50 ? '▲' : '▼',
+        ok: isLong ? (sig.ma20 > sig.ma50) : (sig.ma20 < sig.ma50),
+        detail: sig.ma20 > sig.ma50 ? 'MA20>MA50' : 'MA20<MA50'
+      },
+      {
+        label: 'EMA200',
+        val: sig.last > sig.ma200 ? 'Above' : 'Below',
+        ok: isLong ? (sig.last > sig.ma200) : (sig.last < sig.ma200),
+        detail: isLong ? 'Price above EMA200' : 'Price below EMA200'
+      },
+      {
+        label: 'Volume',
+        val: sig.volRatio ? sig.volRatio.toFixed(1)+'x' : (sig.lastVol>sig.avgVol?'High':'Low'),
+        ok: sig.volRatio ? sig.volRatio >= 1.2 : sig.lastVol > sig.avgVol,
+        detail: sig.volRatio>=1.5 ? 'Strong Vol Spike' : sig.volRatio>=1.2 ? 'Above Avg Vol' : 'Normal Volume'
+      },
+      {
+        label: 'Momentum',
+        val: isLong ? (sig.slope5>0?'+'+sig.slope5.toFixed(1)+'%':sig.slope5.toFixed(1)+'%') : (sig.slope5<0?sig.slope5.toFixed(1)+'%':'+'+sig.slope5.toFixed(1)+'%'),
+        ok: isLong ? (sig.slope3>0 && sig.slope5>0) : (sig.slope3<0 && sig.slope5<0),
+        detail: isLong ? 'Bullish Momentum' : 'Bearish Momentum'
+      }
+    ];
+    return checks;
+  }
 
   const cardHtml=(r,isLong)=>{
-    const c=r.sig.conf;
+    const sig=r.sig;
+    const c=sig.conf;
     const col=isLong?'#0fd47e':'#ff4466';
     const bg=isLong?'rgba(15,212,126,0.06)':'rgba(255,68,102,0.06)';
     const brd=isLong?'rgba(15,212,126,0.28)':'rgba(255,68,102,0.28)';
     const barW=Math.min(100,((c-50)/50)*100);
     const pctStr=r.pct!=null?(r.pct>=0?'+':'')+r.pct.toFixed(2)+'%':'';
     const pctCol=r.pct!=null?(r.pct>=0?'var(--green)':'var(--red)'):'var(--text3)';
-    return`<div onclick="selectSym('${r.sym}')" style="cursor:pointer;background:${bg};border:1px solid ${brd};border-left:3px solid ${col};border-radius:10px;padding:8px 10px;transition:all .18s;" onmouseover="this.style.transform='translateX(2px)'" onmouseout="this.style.transform=''">
+
+    const checks = getConfirmations(sig, isLong);
+    const passCount = checks.filter(ch=>ch.ok).length;
+    const checksHTML = checks.map(ch=>`
+      <div title="${ch.label}: ${ch.detail}" style="display:flex;align-items:center;gap:4px;padding:2px 6px;border-radius:5px;background:${ch.ok?'rgba(15,212,126,0.08)':'rgba(255,68,102,0.07)'};border:1px solid ${ch.ok?'rgba(15,212,126,0.2)':'rgba(255,68,102,0.18)'};cursor:default;">
+        <span style="font-size:8px;color:${ch.ok?'#0fd47e':'#ff4466'};">${ch.ok?'✓':'✗'}</span>
+        <span style="font-size:8px;font-family:'IBM Plex Mono',monospace;color:var(--text3);">${ch.label}</span>
+        <span style="font-size:8px;font-family:'IBM Plex Mono',monospace;font-weight:700;color:${ch.ok?'#0fd47e':'#ff4466'};">${ch.val}</span>
+      </div>`).join('');
+
+    return`<div onclick="selectSym('${r.sym}')" style="cursor:pointer;background:${bg};border:1px solid ${brd};border-left:3px solid ${col};border-radius:10px;padding:9px 11px;transition:all .18s;margin-bottom:0;" onmouseover="this.style.transform='translateX(2px)'" onmouseout="this.style.transform=''">
+      <!-- Row 1: Pair + Conf -->
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:800;color:var(--text);">${r.sym.replace('/USDT','')}</span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:800;color:${col};">${c}%</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:800;color:var(--text);">${r.sym.replace('/USDT','')}<span style="color:var(--text3);font-weight:400;font-size:9px;">/USDT</span></span>
+        <div style="display:flex;align-items:center;gap:5px;">
+          <span style="font-size:8px;color:var(--text3);font-family:'IBM Plex Mono',monospace;">${passCount}/6</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:800;color:${col};">${c}%</span>
+        </div>
       </div>
-      <div style="height:3px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;margin-bottom:4px;">
-        <div style="height:100%;width:${barW}%;background:${col};border-radius:2px;opacity:0.85;"></div>
+      <!-- Confidence bar -->
+      <div style="height:2px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;margin-bottom:6px;">
+        <div style="height:100%;width:${barW}%;background:${col};border-radius:2px;"></div>
       </div>
-      <div style="display:flex;justify-content:space-between;font-size:8.5px;font-family:'IBM Plex Mono',monospace;color:var(--text3);">
-        <span>Entry: <b style="color:var(--text);">${fmt(r.sig.entry)}</b></span>
-        <span>TP: <b style="color:var(--green);">${fmt(r.sig.tp1)}</b></span>
-        <span style="color:${pctCol}">${pctStr}</span>
+      <!-- Entry / TP / SL -->
+      <div style="display:flex;justify-content:space-between;font-size:8.5px;font-family:'IBM Plex Mono',monospace;margin-bottom:6px;">
+        <span style="color:var(--text3);">Entry: <b style="color:var(--blue);">${fmt(sig.entry)}</b></span>
+        <span style="color:var(--text3);">TP: <b style="color:#0fd47e;">${fmt(sig.tp1)}</b></span>
+        <span style="color:var(--text3);">SL: <b style="color:#ff4466;">${fmt(sig.sl)}</b></span>
+        <span style="color:${pctCol};font-weight:700;">${pctStr}</span>
       </div>
+      <!-- 6 Confirmation badges -->
+      <div style="display:flex;flex-wrap:wrap;gap:3px;">${checksHTML}</div>
     </div>`;
   };
 
-  longEl.innerHTML=longs.length?longs.map(r=>cardHtml(r,true)).join(''):'<div style="color:var(--text3);font-size:9px;font-family:\'IBM Plex Mono\',monospace;padding:10px;text-align:center;opacity:0.6;">No confirmed LONG signals</div>';
-  shortEl.innerHTML=shorts.length?shorts.map(r=>cardHtml(r,false)).join(''):'<div style="color:var(--text3);font-size:9px;font-family:\'IBM Plex Mono\',monospace;padding:10px;text-align:center;opacity:0.6;">No confirmed SHORT signals</div>';
+  longEl.innerHTML=longs.length?longs.map(r=>cardHtml(r,true)).join(''):'<div style="color:var(--text3);font-size:9px;font-family:\'IBM Plex Mono\',monospace;padding:10px;text-align:center;opacity:0.6;">No confirmed LONG signals yet</div>';
+  shortEl.innerHTML=shorts.length?shorts.map(r=>cardHtml(r,false)).join(''):'<div style="color:var(--text3);font-size:9px;font-family:\'IBM Plex Mono\',monospace;padding:10px;text-align:center;opacity:0.6;">No confirmed SHORT signals yet</div>';
+  const lcEl=document.getElementById('longCount'); if(lcEl) lcEl.textContent=longs.length+' signals';
+  const scEl=document.getElementById('shortCount'); if(scEl) scEl.textContent=shorts.length+' signals';
 }
 
 
@@ -5391,8 +5492,38 @@ function dismissSignalFloat() {
 }
 
 
+
+// ── DASHBOARD AUTH FUNCTIONS ──
+function dbLogout(){
+  localStorage.removeItem('bt_session');
+  // Also sign out from Supabase
+  try{
+    if(typeof supabase !== 'undefined'){
+      const supa = supabase.createClient('https://aorrltfzhiasahpxbzzz.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvcnJsdGZ6aGlhc2FocHhienp6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2NTkwNDgsImV4cCI6MjA4OTIzNTA0OH0.bdvcl77-s1W1vpK610aoa0upefoYGu0Sl1qlPCWkdu8');
+      supa.auth.signOut().catch(()=>{});
+    }
+  }catch(e){}
+  window.location.replace('index.html');
+}
+
+function initDashboardUser(){
+  const sess = localStorage.getItem('bt_session');
+  if(sess){
+    try{
+      const s = JSON.parse(sess);
+      const badge = document.getElementById('dbUserBadge');
+      if(badge && s.email){
+        const name = s.email.split('@')[0];
+        badge.textContent = '👤 '+name;
+        badge.title = s.email;
+      }
+    }catch(e){}
+  }
+}
+
 // ─── INIT ───
 window.onload=()=>{
+  initDashboardUser();
   if(typeof Chart==='undefined'){setStatus('❌ Chart.js failed to load — Check internet','err');}
   loadSavedTheme();
   if(typeof initChartDefaults==='function')initChartDefaults();
