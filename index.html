@@ -164,49 +164,50 @@
   <div class="pricing-grid">
     <div class="plan">
       <div class="plan-name">Starter</div>
-      <div class="plan-price"><span>$</span>0</div>
-      <div class="plan-period">forever free</div>
+      <div class="plan-price"><span>$</span>50</div>
+      <div class="plan-period">per month · ~PKR 13,900</div>
       <div class="plan-div"></div>
       <ul class="plan-feats">
-        <li><span class="ck">✓</span> 3 trading pairs</li>
-        <li><span class="ck">✓</span> Basic price charts</li>
-        <li><span class="ck">✓</span> 1 exchange (Binance)</li>
-        <li><span class="ck">✓</span> Daily signals (delayed)</li>
-        <li><span class="cx">✗</span> <span style="opacity:.4">Liquidation heatmap</span></li>
-        <li><span class="cx">✗</span> <span style="opacity:.4">Dynamic Island alerts</span></li>
+        <li><span class="ck">✓</span> Live price feed</li>
+        <li><span class="ck">✓</span> Basic signals (3/day)</li>
+        <li><span class="ck">✓</span> AI chart</li>
+        <li><span class="cx">✗</span> Multi-pair scanner</li>
+        <li><span class="cx">✗</span> Confirmed signals</li>
+        <li><span class="cx">✗</span> Volume spikes</li>
       </ul>
-      <button class="plan-btn outline" onclick="openOverlay('authOverlay')">Get started free</button>
+      <button class="plan-btn outline" onclick="openPayModal('Starter','$50 / PKR 13,900',50,13900)">Subscribe — Starter</button>
     </div>
     <div class="plan featured">
       <div class="plan-badge">Most Popular</div>
       <div class="plan-name" style="color:var(--gold)">Pro</div>
-      <div class="plan-price" style="color:var(--gold)"><span>$</span>29</div>
-      <div class="plan-period">per month · ~PKR 8,100</div>
+      <div class="plan-price" style="color:var(--gold)"><span>$</span>200</div>
+      <div class="plan-period">per month · ~PKR 55,600</div>
       <div class="plan-div"></div>
       <ul class="plan-feats">
-        <li><span class="ck">✓</span> Unlimited trading pairs</li>
-        <li><span class="ck">✓</span> Advanced charting suite</li>
-        <li><span class="ck">✓</span> All 7 exchanges</li>
-        <li><span class="ck">✓</span> Real-time signals</li>
-        <li><span class="ck">✓</span> Liquidation heatmap</li>
-        <li><span class="ck">✓</span> Dynamic Island alerts</li>
+        <li><span class="ck">✓</span> Everything in Starter</li>
+        <li><span class="ck">✓</span> Unlimited signals</li>
+        <li><span class="ck">✓</span> Multi-pair scanner (100+ coins)</li>
+        <li><span class="ck">✓</span> Confirmed signals panel</li>
+        <li><span class="ck">✓</span> Volume spike alerts</li>
+        <li><span class="ck">✓</span> Gainers & Losers</li>
+        <li><span class="ck">✓</span> Supply & Demand zones</li>
       </ul>
-      <button class="plan-btn solid" onclick="openPayModal('Pro','$29 / PKR 8,100',29,8100)">Subscribe — Pro</button>
+      <button class="plan-btn solid" onclick="openPayModal('Pro','$200 / PKR 55,600',200,55600)">Subscribe — Pro</button>
     </div>
     <div class="plan">
       <div class="plan-name">Elite</div>
-      <div class="plan-price"><span>$</span>79</div>
-      <div class="plan-period">per month · ~PKR 22,100</div>
+      <div class="plan-price"><span>$</span>100</div>
+      <div class="plan-period">per month · ~PKR 27,800</div>
       <div class="plan-div"></div>
       <ul class="plan-feats">
         <li><span class="ck">✓</span> Everything in Pro</li>
-        <li><span class="ck">✓</span> AI signal engine (full)</li>
-        <li><span class="ck">✓</span> Portfolio analytics</li>
-        <li><span class="ck">✓</span> API access</li>
+        <li><span class="ck">✓</span> 1000+ Binance pairs</li>
+        <li><span class="ck">✓</span> Futures + Spot scanner</li>
         <li><span class="ck">✓</span> Priority support</li>
-        <li><span class="ck">✓</span> Custom alert webhooks</li>
+        <li><span class="ck">✓</span> Liquidation heatmap</li>
+        <li><span class="ck">✓</span> Early access to new features</li>
       </ul>
-      <button class="plan-btn outline" onclick="openPayModal('Elite','$79 / PKR 22,100',79,22100)">Subscribe — Elite</button>
+      <button class="plan-btn outline" onclick="openPayModal('Elite','$100 / PKR 27,800',100,27800)">Subscribe — Elite</button>
     </div>
   </div>
 </section>
@@ -287,9 +288,9 @@
     </p>
     <div style="background:rgba(245,166,35,.07);border:1px solid rgba(245,166,35,.2);border-radius:8px;padding:12px;margin-bottom:16px;font-size:12px;color:var(--gold);">
       📱 WhatsApp: 03186350426<br>
-      📧 BLOOMTRADERS134@GMAIL.COM
+      📧 <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="99dbd5d6d6d4cdcbd8dddccbcaa8aaadd9ded4d8d0d5b7dad6d4">[email&#160;protected]</a>
     </div>
-    <button class="modal-btn" style="margin-bottom:10px;" onclick="closeOverlay('pendingOverlay');openPayModal('Pro','$29 / PKR 8,100',29,8100)">💳 Submit Payment Now</button>
+    <button class="modal-btn" style="margin-bottom:10px;" onclick="closeOverlay('pendingOverlay');openPayModal('Pro','$200 / PKR 55,600',200,55600)">💳 Submit Payment Now</button>
     <button style="width:100%;background:none;border:1px solid var(--bs);color:var(--dim);padding:10px;border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;" onclick="doLogout()">Sign Out</button>
   </div>
 </div>
@@ -434,7 +435,7 @@
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>// =============================================
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>// =============================================
 // =============================================
 // SUPABASE + PREMIUM AUTH SYSTEM
 // =============================================
@@ -458,6 +459,86 @@ function initSupabase(){
       });
     }
   }catch(e){ console.warn('Supabase init:',e); }
+}
+
+// ── UTILITY FUNCTIONS ──
+let submissions = [];
+try{ submissions = JSON.parse(localStorage.getItem('bt_subs')||'[]'); }catch(e){}
+let aFilterVal = 'all';
+
+function openOverlay(id){ const el=document.getElementById(id); if(el){el.classList.add('open');} }
+function closeOverlay(id){ const el=document.getElementById(id); if(el){el.classList.remove('open');} }
+function closeBg(e,id){ if(e.target===e.currentTarget) closeOverlay(id); }
+function showLanding(){
+  document.getElementById('adminScreen').style.display='none';
+  document.getElementById('adminScreen').classList.remove('active');
+  document.getElementById('landingScreen').style.display='block';
+}
+function showToast(msg,type='success'){
+  let t=document.getElementById('siteToast');
+  if(!t){t=document.createElement('div');t.id='siteToast';t.className='toast';document.body.appendChild(t);}
+  t.textContent=msg; t.className='toast show '+(type==='success'?'success':'warn');
+  clearTimeout(t._t); t._t=setTimeout(()=>{t.className='toast';},3500);
+}
+
+// Payment modal
+let _curPlan='Pro', _curLabel='$200 / PKR 55,600', _curUsd=200, _curPkr=55600;
+function openPayModal(plan,label,usd,pkr){
+  _curPlan=plan;_curLabel=label;_curUsd=usd;_curPkr=pkr;
+  const el=document.getElementById('payPillLabel'); if(el) el.textContent=plan+' — '+label;
+  document.querySelectorAll('.pay-box').forEach(b=>b.classList.remove('vis'));
+  document.querySelectorAll('.pm-btn').forEach(b=>b.classList.remove('sel'));
+  const pn=document.getElementById('payNotice'); if(pn) pn.style.display='none';
+  const pr=document.getElementById('payReceiptSec'); if(pr) pr.style.display='none';
+  const ps=document.getElementById('paySuccess'); if(ps) ps.classList.remove('vis');
+  const p1=document.getElementById('payStep1'); if(p1) p1.style.display='block';
+  // Update amounts
+  const usdAmts=['cryptoAmt']; usdAmts.forEach(id=>{const e=document.getElementById(id);if(e)e.innerHTML='$'+usd+'.00<button class="cbtn" onclick="cp(\''+usd+'\',this)">Copy</button>';});
+  ['jazzAmt','epAmt','spAmt','bankAmt'].forEach(id=>{const e=document.getElementById(id);if(e)e.innerHTML='PKR '+pkr.toLocaleString()+'<button class="cbtn" onclick="cp(\''+pkr+'\',this)">Copy</button>';});
+  openOverlay('payOverlay');
+}
+function selectPay(method,btn){
+  document.querySelectorAll('.pm-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  document.querySelectorAll('.pay-box').forEach(b=>b.classList.remove('vis'));
+  const box=document.getElementById('box-'+method); if(box) box.classList.add('vis');
+  const pn=document.getElementById('payNotice'); if(pn) pn.style.display='block';
+  const pr=document.getElementById('payReceiptSec'); if(pr) pr.style.display='block';
+}
+function cp(txt,btn){
+  navigator.clipboard.writeText(txt).catch(()=>{});
+  if(btn){btn.textContent='✓';btn.classList.add('copied');setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},2000);}
+}
+function handleUpload(inp){
+  if(inp.files&&inp.files[0]){
+    const fn=document.getElementById('uploadFN'); if(fn){fn.textContent=inp.files[0].name;fn.style.display='block';}
+    const ua=document.getElementById('uploadArea'); if(ua) ua.classList.add('has-file');
+  }
+}
+async function submitPay(){
+  const name=document.getElementById('payerName')?.value.trim();
+  const email=document.getElementById('payerEmail')?.value.trim().toLowerCase();
+  const phone=document.getElementById('payerPhone')?.value.trim()||'—';
+  if(!name||!email){showToast('Name aur email zaruri hain.','warn');return;}
+  const sub={name,email,phone,plan:_curPlan,method:document.querySelector('.pm-btn.sel .pm-name')?.textContent||'—',amount:'$'+_curUsd+' / PKR '+_curPkr,status:'pending',date:new Date().toISOString().slice(0,16),id:Date.now()};
+  submissions.push(sub);
+  localStorage.setItem('bt_subs',JSON.stringify(submissions));
+  if(supa){ await supa.from('submissions').insert([{name,email,phone,plan:_curPlan,method:sub.method,amount:sub.amount,status:'pending'}]).catch(()=>{}); }
+  document.getElementById('payStep1').style.display='none';
+  document.getElementById('paySuccess').classList.add('vis');
+  showToast('✅ Receipt submitted!','success');
+}
+function initTicker(){
+  const pairs=[['BTC',94200,1.2],['ETH',3280,-0.8],['SOL',185,2.1],['BNB',620,0.5],['XRP',0.62,-1.3],['DOGE',0.18,3.4],['ADA',0.72,1.8],['AVAX',22,-0.6]];
+  const track=document.getElementById('tickerTrack');
+  if(!track)return;
+  const items=[...pairs,...pairs].map(([s,p,c])=>`<div class="tick"><span class="ts">${s}/USDT</span><span class="tp">$${p.toLocaleString()}</span><span class="${c>=0?'tu':'td'}">${c>=0?'+':''}${c}%</span></div>`).join('');
+  track.innerHTML=items;
+}
+function initLandingChart(){
+  const bars=document.querySelectorAll('.cbar');
+  const heights=[40,65,45,80,60,90,55,75,50,85,70,95,60,88,72];
+  bars.forEach((b,i)=>{setTimeout(()=>{b.style.height=(heights[i%heights.length])+'%';},i*60);});
 }
 
 // ── AUTH TAB SWITCH ──
@@ -744,15 +825,4 @@ function saveCreds(){
 // ── SMOOTH SCROLL ──
 document.querySelectorAll("a[href^='#']").forEach(a=>{
   a.addEventListener("click",e=>{
-    const t=document.querySelector(a.getAttribute("href"));
-    if(t){e.preventDefault();t.scrollIntoView({behavior:"smooth"});}
-  });
-});
-
-window.addEventListener("load", function(){
-  initSupabase();
-  initTicker();
-  initLandingChart();
-});</script>
-</body>
-</html>
+    const t=document.querySelecto
